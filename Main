@@ -1,5 +1,5 @@
-import java.util.Random;
-import java.util.Scanner;
+import java.util.Random; //importing random class
+import java.util.Scanner; //importing scanner class to et user input
 
 public class Main {
 
@@ -7,41 +7,41 @@ public class Main {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		char[][] board = {{' ', ' ', ' '},
-				 	      {' ', ' ', ' '}, 
-				 	      {' ', ' ', ' '}};
+		char[][] board = {{' ', ' ', ' '}, //creating the tic tac toe board
+				  {' ', ' ', ' '}, 
+				  {' ', ' ', ' '}};
 		
-		printBoard(board);
+		printBoard(board); //prints board in the console
 		
 		while (true) {
 			playerTurn(board, scanner);
-			if (isGameFinished(board)){
+			if (gameDone(board)){ //checks if the game is over
 				break;
 			}
 			printBoard(board);
 			
-			computerTurn(board);
-			if (isGameFinished(board)){
+			comTurn(board);
+			if (gameDone(board)){
 				break;
 			}
 			printBoard(board);
 		}
-		scanner.close();
+		scanner.close(); //closes the scanner no more input for now
 	}
 
 
-	private static boolean isGameFinished(char[][] board) {
+	private static boolean gameDone(char[][] board) {
 		
-		if (hasContestantWon(board, 'X')) {	
+		if (checkWin(board, 'X')) {	//player is always x 
 			printBoard(board);
-			System.out.println("Player wins!");
-			return true;
+			System.out.println("Player wins!"); //if player wins prints and ends game
+			return true;//end statement
 		}
 		
-		if (hasContestantWon(board, 'O')) {	
+		if (checkWin(board, 'O')) {	//computer is always o
 			printBoard(board);
-			System.out.println("Computer wins!");
-			return true;
+			System.out.println("Computer wins!"); //if computer wins prints and ends game
+			return true;//end statement
 		}
 		
 		for (int i = 0; i < board.length; i++) {
@@ -52,12 +52,12 @@ public class Main {
 			}
 		}
 		printBoard(board);
-		System.out.println("The game ended in a tie!");
-		return true;
+		System.out.println("The game ended in a tie!"); //if the two previous statements dont happen the game ends in a tie
+		return true; //end statement
 	}
 
 
-	private static boolean hasContestantWon(char[][] board, char symbol) {
+	private static boolean checkWin(char[][] board, char symbol) { //checks if the computer or player have won
 		if ((board[0][0] == symbol && board [0][1] == symbol && board [0][2] == symbol) ||
 			(board[1][0] == symbol && board [1][1] == symbol && board [1][2] == symbol) ||
 			(board[2][0] == symbol && board [2][1] == symbol && board [2][2] == symbol) ||
@@ -68,27 +68,27 @@ public class Main {
 			
 			(board[0][0] == symbol && board [1][1] == symbol && board [2][2] == symbol) ||
 			(board[0][2] == symbol && board [1][1] == symbol && board [2][0] == symbol) ) {
-			return true;
+			return true; //goes back to previous statements for win
 		}
-		return false;
+		return false; //no win
 	}
 
 
-	private static void computerTurn(char[][] board) {
-		Random rand = new Random();
-		int computerMove;
+	private static void comTurn(char[][] board) {
+		Random rand = new Random(); //creating a random object
+		int comMove;
 		while (true) {
-			computerMove = rand.nextInt(9) + 1;
-			if (isValidMove(board, Integer.toString(computerMove))) {
+			comMove = rand.nextInt(9) + 1;
+			if (isValidMove(board, Integer.toString(comMove))) {
 				break;
 			}
 		}
-		System.out.println("Computer chose " + computerMove);
-		placeMove(board, Integer.toString(computerMove), 'O');
+		System.out.println("Computer chose " + comMove);
+		placeMove(board, Integer.toString(comMove), 'O'); //makes the computer interger input into a string in the board string array
 	}
 
 
-	private static boolean isValidMove (char[][] board, String position) {
+	private static boolean isValidMove (char[][] board, String position) { //checks if the box is available returns false if it has an x or o
 		switch(position) {
 			case "1":
 				return (board[0][0] == ' ');
@@ -114,21 +114,21 @@ public class Main {
 	}
 
 	private static void playerTurn(char[][] board, Scanner scanner) {
-		String userInput;
+		String userInput; //String to get the users input
 		while (true) {
 			System.out.println("Where would you like to play? (1-9)");
 			userInput = scanner.nextLine();
 			if (isValidMove(board, userInput)){
 				break;
 			} else {
-				System.out.println(userInput + " is not a valid move.");
+				System.out.println(userInput + " is not a valid move."); //works with isValid to determine if you can move
 			}
 		}
-		placeMove(board, userInput, 'X');
+		placeMove(board, userInput, 'X'); //takes the board, where you want to move and places an x
 	}
 
 
-	private static void placeMove(char[][] board, String position, char symbol) {
+	private static void placeMove(char[][] board, String position, char symbol) { //places human x based on number inputted
 		switch(position) {
 			case "1":
 				board[0][0] = symbol;
@@ -158,14 +158,14 @@ public class Main {
 				board[2][2] = symbol;
 				break;
 			default:
-				System.out.println(":(");
+				System.out.println(":("); //if not in the range of the number ten is prints this
 		}
 	}
 
 	
 	
 	
-	private static void printBoard(char[][] board) {
+	private static void printBoard(char[][] board) { //prints board in the console
 		System.out.println(board[0][0] + "|" +  board[0][1] + "|" +  board[0][2] );
 		System.out.println("-+-+-");
 		System.out.println(board[1][0] + "|" +  board[1][1] + "|" +  board[1][2] );
